@@ -1,0 +1,1097 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="5/20/2019 3:25:21 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="MIC-LAP97"
+  DTS:CreatorName="MIC-DOMAIN\Paul.Rowles"
+  DTS:DTSID="{8407AC6F-2291-4A59-9DA2-005D5A5E2306}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="13.0.4495.10"
+  DTS:LocaleID="2057"
+  DTS:ObjectName="PartnerCommission"
+  DTS:PackageType="5"
+  DTS:VersionBuild="7"
+  DTS:VersionGUID="{AB577691-67E4-4EF2-9D67-B4328FE4DD64}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[mic-ukdc-vgrads.Moneybox]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{09D30D64-B1A4-407D-B155-2D47DD1EC52E}"
+      DTS:ObjectName="mic-ukdc-vgrads.Moneybox">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=mic-ukdc-vgrads;Initial Catalog=Moneybox;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[PartnerCommission]"
+      DTS:CreationName="EXCEL"
+      DTS:DTSID="{F6551042-1F12-44D4-8643-3942EDAC629E}"
+      DTS:ObjectName="PartnerCommission">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::CommissionFile] + ";Extended Properties=\"EXCEL 12.0;HDR=YES\";"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\micsqldw\Reconciliation\Templates\PartnerCommissions.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9DFBE3CA-3813-4F0F-A822-B77177195D5D}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::ArchiveFolder] + &quot;PartnerCommissions&quot; + SUBSTRING( (DT_STR,30, 1252) GETDATE(),1,10) + &quot;.xlsx&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ArchiveFile">
+      <DTS:VariableValue
+        DTS:DataType="8">\\micsqldw\Reconciliation\ArchiveFolder\PartnerCommissions2019-05-20.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{79E2BF8A-E116-454A-A836-E325C8EAE2EF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">\\micsqldw\Reconciliation\ArchiveFolder\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{98FA9C56-11C9-495E-A663-C48364167514}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CommissionFile">
+      <DTS:VariableValue
+        DTS:DataType="8">\\micsqldw\Reconciliation\Templates\PartnerCommissions.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{09AF1F78-3AAA-4F55-9A7E-E457A972846B}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DropFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">\\micsqldw\Reconciliation\DropFolder\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8FB966E2-24E6-48AB-B818-C3788A3D6047}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::ArchiveFolder] + &quot;ERRORPartnerCommission&quot; + SUBSTRING( (DT_STR,30, 1252) GETDATE(),1,10) + &quot;.xlsx&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ErrorFile">
+      <DTS:VariableValue
+        DTS:DataType="8">\\micsqldw\Reconciliation\ArchiveFolder\ERRORPartnerCommission2019-05-20.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Foreach Partner Commission File"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Foreach Loop Container"
+      DTS:DTSID="{719FDEE4-3C1E-416B-8273-232ABA9AB8BC}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Foreach Partner Commission File">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachFileEnumerator"
+        DTS:DTSID="{1BA77065-F95E-4A2B-9DED-784F8BBCD1AE}"
+        DTS:ObjectName="{1BA77065-F95E-4A2B-9DED-784F8BBCD1AE}">
+        <DTS:PropertyExpression
+          DTS:Name="Directory">@[User::DropFolder]</DTS:PropertyExpression>
+        <DTS:ObjectData>
+          <ForEachFileEnumeratorProperties>
+            <FEFEProperty
+              Folder="\\micsqldw\Reconciliation\DropFolder\" />
+            <FEFEProperty
+              FileSpec="PartnerCommissions*.xlsx" />
+            <FEFEProperty
+              FileNameRetrievalType="0" />
+            <FEFEProperty
+              Recurse="0" />
+          </ForEachFileEnumeratorProperties>
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Partner Commission File\Archive Partner Commission File"
+          DTS:CreationName="Microsoft.FileSystemTask"
+          DTS:Description="File System Task"
+          DTS:DTSID="{C68B3533-25A1-43A7-A1B2-C25FD5FDEE02}"
+          DTS:ExecutableType="Microsoft.FileSystemTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Archive Partner Commission File"
+          DTS:TaskContact="File System Task;Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <FileSystemData
+              TaskOperationType="RenameFile"
+              TaskOverwriteDestFile="True"
+              TaskSourcePath="User::CommissionFile"
+              TaskIsSourceVariable="True"
+              TaskDestinationPath="User::ArchiveFile"
+              TaskIsDestinationVariable="True" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Partner Commission File\Cleanup Staging Data"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{07CCD2FF-8434-4643-BEB0-199B6BEA4E7D}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Cleanup Staging Data"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{09D30D64-B1A4-407D-B155-2D47DD1EC52E}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [ssis].[tblPartnerCommission_Staging]&#xA;TRUNCATE TABLE [ssis].[tblPartnerPayment_Staging]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Data Flow Task"
+          DTS:DTSID="{48C0A603-5A20-427A-ADCF-26669EB4FD63}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Import Partner Commission Values -&gt; Staging"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column"
+                  componentClassID="Microsoft.DerivedColumn"
+                  contactInfo="Derived Column;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Creates new column values by applying expressions to transformation input columns. Create new columns or overwrite existing ones. For example, concatenate the values from the 'first name' and 'last name' column to make a 'full name' column."
+                  name="Derived Column"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Inputs[Derived Column Input]"
+                      description="Input to the Derived Column Transformation"
+                      name="Derived Column Input">
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Outputs[Derived Column Output]"
+                      description="Default Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      name="Derived Column Output"
+                      synchronousInputId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Outputs[Derived Column Output].Columns[Import Filename]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          length="59"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Outputs[Derived Column Output].Columns[Import Filename]"
+                          name="Import Filename"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Expression"
+                              name="Expression">@[User::CommissionFile]</property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Derived Column Friendly Expression"
+                              expressionType="Notify"
+                              name="FriendlyExpression">@[User::CommissionFile]</property>
+                          </properties>
+                        </outputColumn>
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Outputs[Derived Column Error Output]"
+                      description="Error Output of the Derived Column Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Derived Column Error Output"
+                      synchronousInputId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Inputs[Derived Column Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter"
+                  componentClassID="Microsoft.ConditionalSplit"
+                  contactInfo="Conditional Split;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                  description="Routes data rows to different outputs depending on the content of the data. Use conditions (SSIS expressions) to specify which rows are routed. For example, separate records that need to be cleaned from those that are ready to be loaded or route only a subset of records."
+                  name="Non-null Filter"
+                  usesDispositions="true">
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                      description="Input to the Conditional Split Transformation"
+                      name="Conditional Split Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input].Columns[Internal Contract Ref]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Internal Contract Ref"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]" />
+                      </inputColumns>
+                      <externalMetadataColumns />
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Outputs[Non-null data]"
+                      description="Output 1 of the Conditional Split Transformation"
+                      errorOrTruncationOperation="Computation"
+                      errorRowDisposition="FailComponent"
+                      exclusionGroup="1"
+                      name="Non-null data"
+                      synchronousInputId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                      truncationRowDisposition="FailComponent">
+                      <properties>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                          name="Expression">[ISNULL](#{Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]}) ==  FALSE </property>
+                        <property
+                          containsID="true"
+                          dataType="System.String"
+                          description="Specifies the friendly version of the expression. This expression version uses column names."
+                          expressionType="Notify"
+                          name="FriendlyExpression">ISNULL([Internal Contract Ref]) ==  FALSE </property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                          name="EvaluationOrder">0</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Default Output]"
+                      description="Default Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      name="Conditional Split Default Output"
+                      synchronousInputId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]">
+                      <properties>
+                        <property
+                          dataType="System.Boolean"
+                          name="IsDefaultOut">true</property>
+                      </properties>
+                      <externalMetadataColumns />
+                    </output>
+                    <output
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output]"
+                      description="Error Output of the Conditional Split Transformation"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="Conditional Split Error Output"
+                      synchronousInputId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Partner Commission Exception DB"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[SSIS].[tblPartnerCommission_Exception]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">3</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[mic-ukdc-vgrads.Moneybox]"
+                      connectionManagerRefId="Package.ConnectionManagers[mic-ukdc-vgrads.Moneybox]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].Columns[Internal Contract Ref]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Internal Contract Ref"
+                          externalMetadataColumnId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]" />
+                        <inputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].Columns[Partner Commission Value]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Partner Commission Value"
+                          externalMetadataColumnId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Partner Commission Value]"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].Columns[Partner Commission Value]" />
+                        <inputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].Columns[ErrorCode]"
+                          cachedDataType="i4"
+                          cachedName="ErrorCode"
+                          externalMetadataColumnId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" />
+                        <inputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].Columns[ErrorColumn]"
+                          cachedDataType="i4"
+                          cachedName="ErrorColumn"
+                          externalMetadataColumnId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" />
+                        <inputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].Columns[Import Filename]"
+                          cachedDataType="wstr"
+                          cachedLength="59"
+                          cachedName="Import Filename"
+                          externalMetadataColumnId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Import Filename]"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Outputs[Derived Column Output].Columns[Import Filename]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                          dataType="wstr"
+                          length="20"
+                          name="Internal Contract Ref" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Partner Commission Value]"
+                          dataType="numeric"
+                          name="Partner Commission Value"
+                          precision="19"
+                          scale="4" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Created DateTime]"
+                          dataType="dbTimeStamp"
+                          name="Created DateTime" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Import Filename]"
+                          dataType="wstr"
+                          length="1024"
+                          name="Import Filename" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                          dataType="i4"
+                          name="ErrorCode" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                          dataType="i4"
+                          name="ErrorColumn" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File"
+                  componentClassID="Microsoft.ExcelSource"
+                  contactInfo="Excel Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                  description="Excel Source"
+                  name="Partner Commission File"
+                  usesDispositions="true"
+                  version="1">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">Commissions$</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.String"
+                      description="The variable that contains the SQL command to be executed."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="The mapping from parameters in the SQL command to variables."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[PartnerCommission]"
+                      connectionManagerRefId="Package.ConnectionManagers[PartnerCommission]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output]"
+                      name="Excel Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].ExternalColumns[Internal Contract Ref]"
+                          length="255"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]"
+                          name="Internal Contract Ref"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].Columns[Partner Commission Value]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].ExternalColumns[Partner Commission Value]"
+                          length="255"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].Columns[Partner Commission Value]"
+                          name="Partner Commission Value"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].ExternalColumns[Internal Contract Ref]"
+                          dataType="wstr"
+                          length="255"
+                          name="Internal Contract Ref" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].ExternalColumns[Partner Commission Value]"
+                          dataType="wstr"
+                          length="255"
+                          name="Partner Commission Value" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Error Output]"
+                      isErrorOut="true"
+                      name="Excel Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Error Output].Columns[Internal Contract Ref]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Error Output].Columns[Internal Contract Ref]"
+                          name="Internal Contract Ref" />
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Error Output].Columns[Partner Commission Value]"
+                          dataType="wstr"
+                          length="255"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Error Output].Columns[Partner Commission Value]"
+                          name="Partner Commission Value" />
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB"
+                  componentClassID="Microsoft.OLEDBDestination"
+                  contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="OLE DB Destination"
+                  name="Partner Commission Staging DB"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the name of the database object used to open a rowset."
+                      name="OpenRowset">[SSIS].[tblPartnerCommission_Staging]</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the variable that contains the name of the database object used to open a rowset."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="The SQL command to be executed."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the column code page to use when code page information is unavailable from the data source."
+                      name="DefaultCodePage">1252</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Forces the use of the DefaultCodePage property value when describing character data."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies the mode used to access the database."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepIdentity">false</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                      name="FastLoadKeepNulls">false</property>
+                    <property
+                      dataType="System.String"
+                      description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                      name="FastLoadOptions"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                      name="FastLoadMaxInsertCommitSize">2147483647</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[mic-ukdc-vgrads.Moneybox]"
+                      connectionManagerRefId="Package.ConnectionManagers[mic-ukdc-vgrads.Moneybox]"
+                      description="The OLE DB runtime connection used to access the database."
+                      name="OleDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Inputs[OLE DB Destination Input]"
+                      errorOrTruncationOperation="Insert"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="OLE DB Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Inputs[OLE DB Destination Input].Columns[Internal Contract Ref]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Internal Contract Ref"
+                          externalMetadataColumnId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]" />
+                        <inputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Inputs[OLE DB Destination Input].Columns[Partner Commission Value]"
+                          cachedDataType="wstr"
+                          cachedLength="255"
+                          cachedName="Partner Commission Value"
+                          externalMetadataColumnId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Partner Commission Value]"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output].Columns[Partner Commission Value]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                          dataType="wstr"
+                          length="20"
+                          name="Internal Contract Ref" />
+                        <externalMetadataColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Partner Commission Value]"
+                          dataType="numeric"
+                          name="Partner Commission Value"
+                          precision="19"
+                          scale="4" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Outputs[OLE DB Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="OLE DB Destination Error Output"
+                      synchronousInputId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Inputs[OLE DB Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging.Paths[Derived Column Output]"
+                  endId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB.Inputs[OLE DB Destination Input]"
+                  name="Derived Column Output"
+                  startId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Outputs[Derived Column Output]" />
+                <path
+                  refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging.Paths[Excel Source Output]"
+                  endId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                  name="Excel Source Output"
+                  startId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File.Outputs[Excel Source Output]" />
+                <path
+                  refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging.Paths[Non-null data]"
+                  endId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Inputs[OLE DB Destination Input]"
+                  name="Non-null data"
+                  startId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter.Outputs[Non-null data]" />
+                <path
+                  refId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging.Paths[OLE DB Destination Error Output]"
+                  endId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column.Inputs[Derived Column Input]"
+                  name="OLE DB Destination Error Output"
+                  startId="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB.Outputs[OLE DB Destination Error Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Foreach Partner Commission File\Update Contract from Partner Commission Staging"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{84BA363F-DE02-4B6D-8EB2-A7DB38EB0266}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Update Contract from Partner Commission Staging"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2016; © 2015 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{09D30D64-B1A4-407D-B155-2D47DD1EC52E}"
+              SQLTask:SqlStatementSource="EXEC ssis.uspUpdatePartnerCommissionFromStaging" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Partner Commission File.PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{6E184243-76A8-42D0-9660-A139560DE7B1}"
+          DTS:From="Package\Foreach Partner Commission File\Cleanup Staging Data"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Partner Commission File.PrecedenceConstraints[Constraint 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{7AE5FC05-5C08-4B42-A8CA-D34C5154A14C}"
+          DTS:From="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 1"
+          DTS:To="Package\Foreach Partner Commission File\Update Contract from Partner Commission Staging" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Foreach Partner Commission File.PrecedenceConstraints[Constraint 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{C9A08142-7A3D-44AA-96F8-F0452D5DB07C}"
+          DTS:From="Package\Foreach Partner Commission File\Update Contract from Partner Commission Staging"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint 2"
+          DTS:To="Package\Foreach Partner Commission File\Archive Partner Commission File" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{6622F051-DB50-4D11-B028-949E0AD80CCB}"
+          DTS:ObjectName="{6622F051-DB50-4D11-B028-949E0AD80CCB}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::CommissionFile" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Foreach Partner Commission File\Archive Partner Commission File"
+          TopLeft="87.5000000000001,311.5" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\Foreach Partner Commission File\Cleanup Staging Data"
+          TopLeft="84,5.5" />
+        <NodeLayout
+          Size="303,42"
+          Id="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging"
+          TopLeft="17.5,107.5" />
+        <NodeLayout
+          Size="327,42"
+          Id="Package\Foreach Partner Commission File\Update Contract from Partner Commission Staging"
+          TopLeft="5.50000000000003,209.5" />
+        <EdgeLayout
+          Id="Package\Foreach Partner Commission File.PrecedenceConstraints[Constraint]"
+          TopLeft="169,47.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Partner Commission File.PrecedenceConstraints[Constraint 1]"
+          TopLeft="169,149.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Foreach Partner Commission File.PrecedenceConstraints[Constraint 2]"
+          TopLeft="169,251.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,60"
+              Start="0,0"
+              End="0,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="338,409"
+          Size="338,452"
+          Id="Package\Foreach Partner Commission File"
+          TopLeft="199,116" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="199,42"
+          Id="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File"
+          TopLeft="352.833333333333,113" />
+        <NodeLayout
+          Size="148,42"
+          Id="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Non-null Filter"
+          TopLeft="378.333333333333,211" />
+        <EdgeLayout
+          Id="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging.Paths[Excel Source Output]"
+          TopLeft="452.333333333333,155">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,56"
+              Start="0,0"
+              End="0,48.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="237,42"
+          Id="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB"
+          TopLeft="333.833333333333,327" />
+        <EdgeLayout
+          Id="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging.Paths[Non-null data]"
+          TopLeft="452.333333333333,253">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,74"
+              Start="0,0"
+              End="0,66.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,66.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-30.093359375,28.37548828125,60.18671875,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Derived Column"
+          TopLeft="686,331" />
+        <EdgeLayout
+          Id="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging.Paths[OLE DB Destination Error Output]"
+          TopLeft="570.833333333333,350">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="115.166666666667,0"
+              Start="0,0"
+              End="107.666666666667,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="107.666666666667,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-19.3755729166666,5,146.4178125,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="248,42"
+          Id="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB"
+          TopLeft="912,331" />
+        <EdgeLayout
+          Id="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging.Paths[Derived Column Output]"
+          TopLeft="844,352">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="68,0"
+              Start="0,0"
+              End="60.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="60.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Exception DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission File">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Foreach Partner Commission File\Import Partner Commission Values -&gt; Staging\Partner Commission Staging DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

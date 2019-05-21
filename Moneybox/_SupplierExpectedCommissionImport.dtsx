@@ -1,0 +1,1602 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/22/2010 10:57:38 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="WIN7VM"
+  DTS:CreatorName="Win7VM\Admin"
+  DTS:DTSID="{34267F20-6E1E-4CB9-95EB-F776CEA3E8A8}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="13.0.4495.10"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="_SupplierExpectedCommissionImport"
+  DTS:PackageType="5"
+  DTS:VersionBuild="69"
+  DTS:VersionGUID="{B5C003C3-520E-4F60-A523-F7C944661BCB}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[OLE DB mic_com_pay_rec]"
+      DTS:CreationName="OLEDB"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{C27BC7E2-EB49-4F13-A5C8-C9CE486C83D9}"
+      DTS:ObjectName="OLE DB mic_com_pay_rec">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=mic-ukdc-vgrads;Initial Catalog=Moneybox_Staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-PartnerCommissionImport-{C27BC7E2-EB49-4F13-A5C8-C9CE486C83D9}(local).mic_com_pay_rec;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SupplierExpected]"
+      DTS:CreationName="EXCEL"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{4F44C9C2-2954-46D0-A9B7-A860D546E035}"
+      DTS:ObjectName="SupplierExpected">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::CommissionFile]+";Extended Properties=\"Excel 12.0;HDR=YES\";"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=O:\Templates\SupplierExpectedCommissions.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4226D114-7707-422D-90D2-9EDD3A765760}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::ArchiveFolder]+ right( @[User::CommissionFile], findstring(reverse(@[User::CommissionFile]), &quot;\\&quot;, 1) - 1)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ArchiveFile">
+      <DTS:VariableValue
+        DTS:DataType="8">O:\Test\ArchiveFolder\SupplierExpectedCommissions.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{358BA8BB-5593-4F16-B957-3E39A23DF43E}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">O:\Test\ArchiveFolder\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5546C701-3BF8-45B0-8FE2-DF2E3155E689}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CommissionFile">
+      <DTS:VariableValue
+        DTS:DataType="8">O:\Templates\SupplierExpectedCommissions.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{E79D957A-4021-4698-B59F-4D1FAF4BBBCC}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DropFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">O:\Test</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A3A7D5AA-609B-4BA3-9498-D1A3E0C94AB0}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::ArchiveFolder]+ right( @[User::CommissionFile], findstring(reverse(@[User::CommissionFile]), &quot;\\&quot;, 1) - 1)+&quot;.error&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ErrorFile">
+      <DTS:VariableValue
+        DTS:DataType="8">O:\Test\ArchiveFolder\SupplierExpectedCommissions.xlsx.error</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Email Success"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{4B8F4827-57D6-4F16-B80D-F955F8D34A31}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Email Success"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData />
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load variables from DB"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:Disabled="True"
+      DTS:DTSID="{23578A30-B652-4801-BE4F-53A18C3F88F8}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="2057"
+      DTS:ObjectName="Load variables from DB">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Load variables from DB\Get Archive Folder Path"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{4C3ABA24-3AC6-4B86-9FC5-3FD88E9B7BE6}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get Archive Folder Path"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{C27BC7E2-EB49-4F13-A5C8-C9CE486C83D9}"
+              SQLTask:SqlStatementSource="Exec ssis.uspGetSSISParameter ?, 'ArchiveFolder', ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="System::PackageName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="100" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::ArchiveFolder"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="1024" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load variables from DB\Get DropFolder path"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{0129C89E-4385-4F4A-BF0F-5CA7305B2E0F}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get DropFolder path"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{C27BC7E2-EB49-4F13-A5C8-C9CE486C83D9}"
+              SQLTask:SqlStatementSource="Exec ssis.uspGetSSISParameter ?, 'DropFolder', ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="System::PackageName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="100" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::DropFolder"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="1024" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Log Task End"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{A11A2018-B5F0-487B-9FC3-679EDD56945E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Log Task End"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C27BC7E2-EB49-4F13-A5C8-C9CE486C83D9}"
+          SQLTask:SqlStatementSource="EXEC ssis.uspInsertSSISLogRecord 'TASKFINISH', 'SupplierExpected task ended successfully'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Log Task Start"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{BC567723-A594-4029-ADA5-A93047AE401D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Log Task Start"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{C27BC7E2-EB49-4F13-A5C8-C9CE486C83D9}"
+          SQLTask:SqlStatementSource="EXEC ssis.uspInsertSSISLogRecord 'TASKSTART', 'SupplierExpected task started'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SupplierExpected Files"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{7CAD1838-26D6-4256-92AF-4EFE2BA4EDEA}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="2057"
+      DTS:ObjectName="SupplierExpected Files">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SupplierExpected Files\Foreach SupplierExpected File"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{DE6C0EA0-FE3C-4706-8706-6CF6120CA918}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Foreach SupplierExpected File">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.ForEachFileEnumerator"
+            DTS:DTSID="{BD88BFC2-A2A9-4C8C-9BF3-13B869B20101}"
+            DTS:ObjectName="{BD88BFC2-A2A9-4C8C-9BF3-13B869B20101}">
+            <DTS:PropertyExpression
+              DTS:Name="Directory">@[User::DropFolder]</DTS:PropertyExpression>
+            <DTS:ObjectData>
+              <ForEachFileEnumeratorProperties>
+                <FEFEProperty
+                  Folder="O:\Test" />
+                <FEFEProperty
+                  FileSpec="SupplierExpectedCommissions*.xlsx" />
+                <FEFEProperty
+                  FileNameRetrievalType="0" />
+                <FEFEProperty
+                  Recurse="0" />
+              </ForEachFileEnumeratorProperties>
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Archive Partner Commission File"
+              DTS:CreationName="Microsoft.FileSystemTask"
+              DTS:Description="File System Task"
+              DTS:DTSID="{F4C3A71C-7885-49AF-9DD4-B174EDA1BD73}"
+              DTS:ExecutableType="Microsoft.FileSystemTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Archive Partner Commission File"
+              DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <FileSystemData
+                  TaskOperationType="RenameFile"
+                  TaskOverwriteDestFile="True"
+                  TaskSourcePath="User::CommissionFile"
+                  TaskIsSourceVariable="True"
+                  TaskDestinationPath="User::ArchiveFile"
+                  TaskIsDestinationVariable="True" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Cleanup Staging Data"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{E10A8394-F8A6-485C-929F-A0977C0B6610}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Cleanup Staging Data"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{C27BC7E2-EB49-4F13-A5C8-C9CE486C83D9}"
+                  SQLTask:SqlStatementSource="TRUNCATE TABLE [ssis].[tblSupplierExpected_Staging]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging"
+              DTS:CreationName="Microsoft.Pipeline"
+              DTS:DelayValidation="True"
+              DTS:Description="Data Flow Task"
+              DTS:DTSID="{2931C0C0-9130-4F17-9183-05AA91425465}"
+              DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Import SupplierExpected Commission Values -&gt; Staging"
+              DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  BLOBTempStoragePath=""
+                  bufferTempStoragePath=""
+                  version="1">
+                  <components>
+                    <component
+                      refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns"
+                      componentClassID="Microsoft.DerivedColumn"
+                      contactInfo="Derived Column;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                      description="Updates column values using expressions"
+                      name="Derived Columns"
+                      usesDispositions="true">
+                      <inputs>
+                        <input
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Inputs[Derived Column Input]"
+                          description="Input to the Derived Column Transformation"
+                          name="Derived Column Input">
+                          <externalMetadataColumns />
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Output]"
+                          description="Default Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          name="Derived Column Output"
+                          synchronousInputId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Inputs[Derived Column Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Output].Columns[Import Filename]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Computation"
+                              errorRowDisposition="FailComponent"
+                              length="1024"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Output].Columns[Import Filename]"
+                              name="Import Filename"
+                              truncationRowDisposition="FailComponent">
+                              <properties>
+                                <property
+                                  containsID="true"
+                                  dataType="System.String"
+                                  description="Derived Column Expression"
+                                  name="Expression">@[User::CommissionFile]</property>
+                                <property
+                                  containsID="true"
+                                  dataType="System.String"
+                                  description="Derived Column Friendly Expression"
+                                  expressionType="Notify"
+                                  name="FriendlyExpression">@[User::CommissionFile]</property>
+                              </properties>
+                            </outputColumn>
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output]"
+                          description="Error Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="Derived Column Error Output"
+                          synchronousInputId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Inputs[Derived Column Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter"
+                      componentClassID="Microsoft.ConditionalSplit"
+                      contactInfo="Conditional Split;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                      description="Evaluates and directs rows in a dataset."
+                      localeId="2057"
+                      name="Non-null Filter"
+                      usesDispositions="true">
+                      <inputs>
+                        <input
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                          description="Input to the Conditional Split Transformation"
+                          name="Conditional Split Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input].Columns[Internal Contract Ref]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Internal Contract Ref"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]"
+                              name="Internal Contract Ref" />
+                          </inputColumns>
+                          <externalMetadataColumns />
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Outputs[Non-null data]"
+                          description="Output 1 of the Conditional Split Transformation"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          exclusionGroup="1"
+                          name="Non-null data"
+                          synchronousInputId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                              name="Expression">[ISNULL](#{Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]}) ==  FALSE </property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Specifies the friendly version of the expression. This expression version uses column names."
+                              expressionType="Notify"
+                              name="FriendlyExpression">ISNULL([Internal Contract Ref]) ==  FALSE </property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                              name="EvaluationOrder">0</property>
+                          </properties>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Default Output]"
+                          description="Default Output of the Conditional Split Transformation"
+                          exclusionGroup="1"
+                          name="Conditional Split Default Output"
+                          synchronousInputId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              name="IsDefaultOut">true</property>
+                          </properties>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output]"
+                          description="Error Output of the Conditional Split Transformation"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="Conditional Split Error Output"
+                          synchronousInputId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="SupplierExpected Commission Exception DB"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[ssis].[tblSupplierExpected_Exception]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[OLE DB mic_com_pay_rec]"
+                          connectionManagerRefId="Package.ConnectionManagers[OLE DB mic_com_pay_rec]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].Columns[Internal Contract Ref]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Internal Contract Ref"
+                              externalMetadataColumnId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]" />
+                            <inputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].Columns[ErrorCode]"
+                              cachedDataType="i4"
+                              cachedName="ErrorCode"
+                              externalMetadataColumnId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" />
+                            <inputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].Columns[ErrorColumn]"
+                              cachedDataType="i4"
+                              cachedName="ErrorColumn"
+                              externalMetadataColumnId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" />
+                            <inputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].Columns[Import Filename]"
+                              cachedDataType="wstr"
+                              cachedLength="1024"
+                              cachedName="Import Filename"
+                              externalMetadataColumnId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Import Filename]"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Output].Columns[Import Filename]" />
+                            <inputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].Columns[Supplier Expected Commission value]"
+                              cachedDataType="r8"
+                              cachedName="Supplier Expected Commission value"
+                              externalMetadataColumnId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Supplier Commission Value]"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].Columns[Supplier Expected Commission value]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="20"
+                              name="Internal Contract Ref" />
+                            <externalMetadataColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Created DateTime]"
+                              dataType="dbTimeStamp"
+                              name="Created DateTime" />
+                            <externalMetadataColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Import Filename]"
+                              dataType="wstr"
+                              length="1024"
+                              name="Import Filename" />
+                            <externalMetadataColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                              dataType="i4"
+                              name="ErrorCode" />
+                            <externalMetadataColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                              dataType="i4"
+                              name="ErrorColumn" />
+                            <externalMetadataColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Supplier Commission Value]"
+                              dataType="numeric"
+                              name="Supplier Commission Value"
+                              precision="19"
+                              scale="4" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File"
+                      componentClassID="Microsoft.ExcelSource"
+                      contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                      description="Excel Source"
+                      name="SupplierExpected Commission File"
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      version="1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">Commissions$</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed."
+                          name="SqlCommandVariable"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">0</property>
+                        <property
+                          dataType="System.String"
+                          description="The mapping from parameters in the SQL command to variables."
+                          name="ParameterMapping"></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[SupplierExpected]"
+                          connectionManagerRefId="Package.ConnectionManagers[SupplierExpected]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <outputs>
+                        <output
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output]"
+                          name="Excel Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].ExternalColumns[Internal Contract Ref]"
+                              length="255"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]"
+                              name="Internal Contract Ref"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].Columns[Supplier Expected Commission value]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].ExternalColumns[Supplier Expected Commission value]"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].Columns[Supplier Expected Commission value]"
+                              name="Supplier Expected Commission value"
+                              truncationRowDisposition="FailComponent" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].ExternalColumns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="255"
+                              name="Internal Contract Ref" />
+                            <externalMetadataColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].ExternalColumns[Supplier Expected Commission value]"
+                              dataType="r8"
+                              name="Supplier Expected Commission value" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Error Output]"
+                          isErrorOut="true"
+                          name="Excel Source Error Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Error Output].Columns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Error Output].Columns[Internal Contract Ref]"
+                              name="Internal Contract Ref" />
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Error Output].Columns[Supplier Expected Commission value]"
+                              dataType="r8"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Error Output].Columns[Supplier Expected Commission value]"
+                              name="Supplier Expected Commission value" />
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="SupplierExpected Commission Staging DB"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[ssis].[tblSupplierExpected_Staging]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">0</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[OLE DB mic_com_pay_rec]"
+                          connectionManagerRefId="Package.ConnectionManagers[OLE DB mic_com_pay_rec]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="RedirectRow"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Inputs[OLE DB Destination Input].Columns[Internal Contract Ref]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Internal Contract Ref"
+                              externalMetadataColumnId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]" />
+                            <inputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Inputs[OLE DB Destination Input].Columns[Supplier Expected Commission value]"
+                              cachedDataType="r8"
+                              cachedName="Supplier Expected Commission value"
+                              externalMetadataColumnId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Supplier Commission Value]"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output].Columns[Supplier Expected Commission value]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="20"
+                              name="Internal Contract Ref" />
+                            <externalMetadataColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Supplier Commission Value]"
+                              dataType="numeric"
+                              name="Supplier Commission Value"
+                              precision="19"
+                              scale="4" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging.Paths[Derived Column Output]"
+                      endId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB.Inputs[OLE DB Destination Input]"
+                      name="Derived Column Output"
+                      startId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Output]" />
+                    <path
+                      refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging.Paths[Excel Source Output]"
+                      endId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                      name="Excel Source Output"
+                      startId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File.Outputs[Excel Source Output]" />
+                    <path
+                      refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging.Paths[Non-null data]"
+                      endId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Inputs[OLE DB Destination Input]"
+                      name="Non-null data"
+                      startId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter.Outputs[Non-null data]" />
+                    <path
+                      refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging.Paths[OLE DB Destination Error Output]"
+                      endId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns.Inputs[Derived Column Input]"
+                      name="OLE DB Destination Error Output"
+                      startId="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB.Outputs[OLE DB Destination Error Output]" />
+                  </paths>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SupplierExpected Files\Foreach SupplierExpected File\Update Contract from SupplierExpected Commission Stagiing"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{4C076CE0-AC4B-4FF0-BD7F-228441014B4A}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Update Contract from SupplierExpected Commission Stagiing"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{C27BC7E2-EB49-4F13-A5C8-C9CE486C83D9}"
+                  SQLTask:SqlStatementSource="EXEC ssis.uspUpdateSupplierExpectedFromStaging" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SupplierExpected Files\Foreach SupplierExpected File.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{E1D60802-9EE1-40D5-BFCA-263286ECB03F}"
+              DTS:From="Package\SupplierExpected Files\Foreach SupplierExpected File\Cleanup Staging Data"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SupplierExpected Files\Foreach SupplierExpected File.PrecedenceConstraints[Constraint 1]"
+              DTS:CreationName=""
+              DTS:DTSID="{13A3DE88-1876-4C81-8E25-AE7858FC06F8}"
+              DTS:From="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 1"
+              DTS:To="Package\SupplierExpected Files\Foreach SupplierExpected File\Update Contract from SupplierExpected Commission Stagiing" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SupplierExpected Files\Foreach SupplierExpected File.PrecedenceConstraints[Constraint 2]"
+              DTS:CreationName=""
+              DTS:DTSID="{4BEB9218-42E0-4996-902B-D7A0A105FEF2}"
+              DTS:From="Package\SupplierExpected Files\Foreach SupplierExpected File\Update Contract from SupplierExpected Commission Stagiing"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 2"
+              DTS:To="Package\SupplierExpected Files\Foreach SupplierExpected File\Archive Partner Commission File" />
+          </DTS:PrecedenceConstraints>
+          <DTS:EventHandlers>
+            <DTS:EventHandler
+              DTS:refId="Package\SupplierExpected Files\Foreach SupplierExpected File.EventHandlers[OnTaskFailed]"
+              DTS:CreationName="OnTaskFailed"
+              DTS:DTSID="{054020AE-D1BD-4796-AC55-A2E2B3BE66C1}"
+              DTS:EventID="0"
+              DTS:EventName="OnTaskFailed"
+              DTS:LocaleID="-1">
+              <DTS:Variables>
+                <DTS:Variable
+                  DTS:CreationName=""
+                  DTS:Description="The propagate property of the event"
+                  DTS:DTSID="{0758F8D2-1A3A-4EE1-ABB1-FC7F027DBFEC}"
+                  DTS:IncludeInDebugDump="6789"
+                  DTS:Namespace="System"
+                  DTS:ObjectName="Propagate">
+                  <DTS:VariableValue
+                    DTS:DataType="11">-1</DTS:VariableValue>
+                </DTS:Variable>
+              </DTS:Variables>
+              <DTS:Executables>
+                <DTS:Executable
+                  DTS:refId="Package\SupplierExpected Files\Foreach SupplierExpected File.EventHandlers[OnTaskFailed]\Archive Error File"
+                  DTS:CreationName="Microsoft.FileSystemTask"
+                  DTS:Description="File System Task"
+                  DTS:DTSID="{3ED168A5-AF4F-40CE-AA7E-4FF3551AB0C7}"
+                  DTS:ExecutableType="Microsoft.FileSystemTask"
+                  DTS:LocaleID="-1"
+                  DTS:ObjectName="Archive Error File"
+                  DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+                  <DTS:Variables />
+                  <DTS:ObjectData>
+                    <FileSystemData
+                      TaskOperationType="RenameFile"
+                      TaskOverwriteDestFile="True"
+                      TaskSourcePath="User::CommissionFile"
+                      TaskIsSourceVariable="True"
+                      TaskDestinationPath="User::ErrorFile"
+                      TaskIsDestinationVariable="True" />
+                  </DTS:ObjectData>
+                </DTS:Executable>
+              </DTS:Executables>
+            </DTS:EventHandler>
+          </DTS:EventHandlers>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{930E239D-FB7C-4487-9A04-76C3F4D7CEB4}"
+              DTS:ObjectName="{930E239D-FB7C-4487-9A04-76C3F4D7CEB4}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::CommissionFile" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{28E36F35-A4BF-4DA9-BF49-C0811D9868E8}"
+      DTS:From="Package\Log Task Start"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load variables from DB" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{545DCBAF-70B4-4DC0-9F52-DCC0FE857F6C}"
+      DTS:From="Package\SupplierExpected Files"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Email Success" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{79E3E2AA-932C-4142-ABD2-C56F7A107EC2}"
+      DTS:From="Package\Load variables from DB"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SupplierExpected Files" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{72DDCC8C-B712-4783-9254-14C758FA60EE}"
+      DTS:From="Package\Email Success"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Log Task End"
+      DTS:Value="2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{07F001E8-4B94-413A-B2CF-65E9E5716A42}"
+      DTS:EventID="0"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="The propagate property of the event"
+          DTS:DTSID="{DA8F3F39-D236-4F91-85D6-4D24F224FFE2}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Email failure"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{CEDDFE58-1FFA-4D5F-AA1F-FACD1030824F}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Email failure"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData />
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Log Task Abort"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{9F76721E-8750-45DA-A0F2-93DB59090D7E}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Log Task Abort"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{C27BC7E2-EB49-4F13-A5C8-C9CE486C83D9}"
+              SQLTask:SqlStatementSource="EXEC ssis.uspInsertSSISLogRecord 'TASKABORT', 'SupplierExpectedtask aborted'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{121244BA-BE3E-4048-A403-6E8C99EC281F}"
+          DTS:From="Package.EventHandlers[OnError]\Email failure"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package.EventHandlers[OnError]\Log Task Abort"
+          DTS:Value="2" />
+      </DTS:PrecedenceConstraints>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Email Success"
+          TopLeft="841.801886792453,5.5" />
+        <NodeLayout
+          Size="168,44"
+          Id="Package\Load variables from DB\Get Archive Folder Path"
+          TopLeft="17.8490566037736,79.377358490566" />
+        <NodeLayout
+          Size="168,44"
+          Id="Package\Load variables from DB\Get DropFolder path"
+          TopLeft="17.8867924528302,17.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="205,141"
+          Size="205,185"
+          Id="Package\Load variables from DB"
+          TopLeft="175.311320754717,5.76415094339626" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Log Task End"
+          TopLeft="1012.10377358491,6.17924528301887" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Log Task Start"
+          TopLeft="5.5,5.57547169811323" />
+        <NodeLayout
+          Size="230,44"
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Archive Partner Commission File"
+          TopLeft="63.4716981132075,228.056603773585" />
+        <NodeLayout
+          Size="182,44"
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Cleanup Staging Data"
+          TopLeft="87.7358490566038,8.47169811320751" />
+        <NodeLayout
+          Size="295,44"
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging"
+          TopLeft="30.9811320754717,80.0943396226415" />
+        <NodeLayout
+          Size="320,44"
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Update Contract from SupplierExpected Commission Stagiing"
+          TopLeft="18.6037735849056,151.22641509434" />
+        <EdgeLayout
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File.PrecedenceConstraints[Constraint]"
+          TopLeft="178.566037735849,52.3962264150943">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-0.339622641509436,27.6981132075472"
+              Start="0,0"
+              End="-0.339622641509436,20.1981132075472">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.8490566037736" />
+                  <mssgle:LineSegment
+                    End="-0.339622641509436,13.8490566037736" />
+                  <mssgle:LineSegment
+                    End="-0.339622641509436,20.1981132075472" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File.PrecedenceConstraints[Constraint 1]"
+          TopLeft="178.22641509434,124.018867924528">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.603773584905639,27.2075471698113"
+              Start="0,0"
+              End="0.603773584905639,19.7075471698113">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.622641509434" />
+                  <mssgle:LineSegment
+                    End="0.603773584905639,13.622641509434" />
+                  <mssgle:LineSegment
+                    End="0.603773584905639,19.7075471698113" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File.PrecedenceConstraints[Constraint 2]"
+          TopLeft="116.566037735849,195.150943396226">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="61.6981132075471,32.9056603773585"
+              Start="0,0"
+              End="61.6981132075471,25.4056603773585">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.6792452830189" />
+                  <mssgle:LineSegment
+                    End="61.6981132075471,24.6792452830189" />
+                  <mssgle:LineSegment
+                    End="61.6981132075471,25.4056603773585" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="372,289"
+          Size="372,333"
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File"
+          TopLeft="16.9056603773585,13.7547169811321" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="404,364"
+          Size="404,408"
+          Id="Package\SupplierExpected Files"
+          TopLeft="405.952830188679,6.3679245283019" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="141.27358490566,27.5377358490566">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="34.0377358490566,70.5660377358491"
+              Start="0,0"
+              End="26.5377358490566,70.5660377358491">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="17.0188679245283,0" />
+                  <mssgle:LineSegment
+                    End="17.0188679245283,70.5660377358491" />
+                  <mssgle:LineSegment
+                    End="26.5377358490566,70.5660377358491" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="809.575471698113,210.556603773585">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="32.2264150943396,-183.094339622642"
+              Start="0,0"
+              End="24.7264150943396,-183.094339622642">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="16.1132075471698,0" />
+                  <mssgle:LineSegment
+                    End="16.1132075471698,-183.094339622642" />
+                  <mssgle:LineSegment
+                    End="24.7264150943396,-183.094339622642" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="380.028301886792,98.1037735849057">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="25.9245283018868,112.452830188679"
+              Start="0,0"
+              End="18.4245283018868,112.452830188679">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="12.9811320754717,0" />
+                  <mssgle:LineSegment
+                    End="12.9811320754717,112.452830188679" />
+                  <mssgle:LineSegment
+                    End="18.4245283018868,112.452830188679" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="977.575471698113,27.4622641509434">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="34.5283018867924,0.679245283018872"
+              Start="0,0"
+              End="27.0283018867924,0.679245283018872">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="17.2452830188679,0" />
+                  <mssgle:LineSegment
+                    End="17.2452830188679,0.679245283018872" />
+                  <mssgle:LineSegment
+                    End="27.0283018867924,0.679245283018872" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8.05917010613208,-21.609375,50.60890625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package.EventHandlers[OnError]\Email failure"
+          TopLeft="7.91509433962264,5.5" />
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package.EventHandlers[OnError]\Log Task Abort"
+          TopLeft="5.5,204.669811320755" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
+          TopLeft="75.8018867924528,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-2.41509433962264,155.245283018868"
+              Start="0,0"
+              End="-2.41509433962264,147.745283018868">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,77.622641509434" />
+                  <mssgle:LineSegment
+                    End="-2.41509433962264,77.622641509434" />
+                  <mssgle:LineSegment
+                    End="-2.41509433962264,147.745283018868" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <DtsEventHandler
+    design-time-name="Package\SupplierExpected Files\Foreach SupplierExpected File.EventHandlers[OnTaskFailed]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File.EventHandlers[OnTaskFailed]\Archive Error File"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <TaskHost
+    design-time-name="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Derived Columns"
+          TopLeft="301.311320754717,173.5" />
+        <NodeLayout
+          Size="144,44"
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\Non-null Filter"
+          TopLeft="46.5566037735849,90.5188679245283" />
+        <NodeLayout
+          Size="238,44"
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB"
+          TopLeft="491.009433962264,173.5" />
+        <NodeLayout
+          Size="227,44"
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB"
+          TopLeft="5.5,173.462264150943" />
+        <NodeLayout
+          Size="171,44"
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File"
+          TopLeft="33.5377358490566,5.5" />
+        <EdgeLayout
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging.Paths[OLE DB Destination Error Output]"
+          TopLeft="232.141509433962,195.424528301887">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="69.1698113207547,0.0377358490565598"
+              Start="0,0"
+              End="61.6698113207547,0.0377358490565598">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="34.5660377358491,0" />
+                  <mssgle:LineSegment
+                    End="34.5660377358491,0.0377358490565598" />
+                  <mssgle:LineSegment
+                    End="61.6698113207547,0.0377358490565598" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-38.6428685141509,-21.43359375,146.4178125,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging.Paths[Non-null data]"
+          TopLeft="118.443396226415,134.443396226415">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.377358490566053,39.0188679245283"
+              Start="0,0"
+              End="0.377358490566053,31.5188679245283">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5094339622641" />
+                  <mssgle:LineSegment
+                    End="0.377358490566053,19.5094339622641" />
+                  <mssgle:LineSegment
+                    End="0.377358490566053,31.5188679245283" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-29.904680129717,24.5094339622641,60.18671875,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging.Paths[Excel Source Output]"
+          TopLeft="118.896226415094,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-0.452830188679258,41.0943396226415"
+              Start="0,0"
+              End="-0.452830188679258,33.5943396226415">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.5283018867925" />
+                  <mssgle:LineSegment
+                    End="-0.452830188679258,20.5283018867925" />
+                  <mssgle:LineSegment
+                    End="-0.452830188679258,33.5943396226415" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging.Paths[Derived Column Output]"
+          TopLeft="437.084905660377,195.462264150943">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="53.9245283018868,0"
+              Start="0,0"
+              End="46.4245283018868,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="46.4245283018868,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Exception DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission File">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SupplierExpected Files\Foreach SupplierExpected File\Import SupplierExpected Commission Values -&gt; Staging\SupplierExpected Commission Staging DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

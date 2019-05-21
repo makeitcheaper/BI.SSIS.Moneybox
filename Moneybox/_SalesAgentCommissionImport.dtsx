@@ -1,0 +1,2598 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/22/2010 10:57:38 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="WIN7VM"
+  DTS:CreatorName="Win7VM\Admin"
+  DTS:DTSID="{C5DD35AE-6298-4C9D-9E37-61207F5D3720}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="13.0.4495.10"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="_SalesAgentCommissionImport"
+  DTS:PackageType="5"
+  DTS:VersionBuild="72"
+  DTS:VersionGUID="{F696E803-244B-4822-A81B-C025DA05F06F}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Moneybox_Staging]"
+      DTS:CreationName="OLEDB"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{2870F162-3C2D-4392-ACC5-7FC3B1D5CE37}"
+      DTS:ObjectName="Moneybox_Staging">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=mic-ukdc-vgrads;Initial Catalog=Moneybox_Staging;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;Application Name=SSIS-PartnerCommissionImport-{2870F162-3C2D-4392-ACC5-7FC3B1D5CE37}(local).mic_com_pay_rec;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SalesAgentCommissions]"
+      DTS:CreationName="EXCEL"
+      DTS:DelayValidation="True"
+      DTS:DTSID="{400D12B5-3B6E-4FD1-BA0F-1BA09A9646B0}"
+      DTS:ObjectName="SalesAgentCommissions">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=" + @[User::CommissionFile]+";Extended Properties=\"Excel 12.0;HDR=YES\";"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Provider=Microsoft.ACE.OLEDB.12.0;Data Source=O:\Templates\SalesAgentCommissions.xlsx;Extended Properties=&quot;Excel 12.0 XML;HDR=YES&quot;;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0769C47E-9090-4BA3-9B58-32141B740ECF}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::ArchiveFolder]+ right( @[User::CommissionFile], findstring(reverse(@[User::CommissionFile]), &quot;\\&quot;, 1) - 1)"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ArchiveFile">
+      <DTS:VariableValue
+        DTS:DataType="8">O:\Test\ArchiveFolder\SalesAgentCommissions.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{7554BA28-987E-4ECC-84BD-D1BE09500ADF}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ArchiveFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">O:\Test\ArchiveFolder\</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0F40EBEE-0FC0-4CBB-9A7E-D58674CFBFFC}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="CommissionFile">
+      <DTS:VariableValue
+        DTS:DataType="8">O:\Templates\SalesAgentCommissions.xlsx</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{996BCED7-E55F-4226-B4DC-96C951F9C7D4}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="DropFolder">
+      <DTS:VariableValue
+        DTS:DataType="8">O:\Test</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{132FC478-B120-4F39-A50B-6488F693B9F5}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[User::ArchiveFolder]+ right( @[User::CommissionFile], findstring(reverse(@[User::CommissionFile]), &quot;\\&quot;, 1) - 1)+&quot;.error&quot;"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ErrorFile">
+      <DTS:VariableValue
+        DTS:DataType="8">O:\Test\ArchiveFolder\SalesAgentCommissions.xlsx.error</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Email Success"
+      DTS:CreationName="Microsoft.SendMailTask"
+      DTS:Description="Send Mail Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{D7AF7495-61DB-4354-8BAA-767C94D9447A}"
+      DTS:ExecutableType="Microsoft.SendMailTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Email Success"
+      DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData />
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load variables from DB"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:Disabled="True"
+      DTS:DTSID="{6C29B86C-F79E-4A50-9234-B79A019B79F2}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="2057"
+      DTS:ObjectName="Load variables from DB">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Load variables from DB\Get Archive Folder Path"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{436E578F-2EE9-44C9-82EF-FD5FA877C075}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get Archive Folder Path"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{2870F162-3C2D-4392-ACC5-7FC3B1D5CE37}"
+              SQLTask:SqlStatementSource="Exec ssis.uspGetSSISParameter ?, 'ArchiveFolder', ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="System::PackageName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="100" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::ArchiveFolder"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="1024" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Load variables from DB\Get DropFolder path"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{2238F857-F3FF-43D8-A66A-0C4117DDF338}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Get DropFolder path"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{2870F162-3C2D-4392-ACC5-7FC3B1D5CE37}"
+              SQLTask:SqlStatementSource="Exec ssis.uspGetSSISParameter ?, 'DropFolder', ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="0"
+                SQLTask:DtsVariableName="System::PackageName"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="100" />
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="1"
+                SQLTask:DtsVariableName="User::DropFolder"
+                SQLTask:ParameterDirection="Output"
+                SQLTask:DataType="130"
+                SQLTask:ParameterSize="1024" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Log Task End"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{841D30EE-2BBA-4FD8-87F5-E24230128AB8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Log Task End"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2870F162-3C2D-4392-ACC5-7FC3B1D5CE37}"
+          SQLTask:SqlStatementSource="EXEC ssis.uspInsertSSISLogRecord 'TASKFINISH', 'SalesAgentCommissionImport task ended successfully'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Log Task Start"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
+      DTS:DTSID="{ED3F8ECD-C925-4B03-BDF1-7DFA284C659D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Log Task Start"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{2870F162-3C2D-4392-ACC5-7FC3B1D5CE37}"
+          SQLTask:SqlStatementSource="EXEC ssis.uspInsertSSISLogRecord 'TASKSTART', 'SalesAgentCommissionImport task started'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SalesAgentCommissions Files"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Sequence Container"
+      DTS:DTSID="{F81A1A66-BC4C-483D-B482-97385A3AC920}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="2057"
+      DTS:ObjectName="SalesAgentCommissions Files">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File"
+          DTS:CreationName="STOCK:FOREACHLOOP"
+          DTS:Description="Foreach Loop Container"
+          DTS:DTSID="{44672DC7-B626-477C-94C3-EAAE9209A6FE}"
+          DTS:ExecutableType="STOCK:FOREACHLOOP"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Foreach Sales Agent Commission File">
+          <DTS:ForEachEnumerator
+            DTS:CreationName="Microsoft.ForEachFileEnumerator"
+            DTS:DTSID="{252AA7F6-906C-48EC-949E-BE5E3E485A0A}"
+            DTS:ObjectName="{252AA7F6-906C-48EC-949E-BE5E3E485A0A}">
+            <DTS:PropertyExpression
+              DTS:Name="Directory">@[User::DropFolder]</DTS:PropertyExpression>
+            <DTS:ObjectData>
+              <ForEachFileEnumeratorProperties>
+                <FEFEProperty
+                  Folder="O:\Test" />
+                <FEFEProperty
+                  FileSpec="SalesAgentCommissions*.xlsx" />
+                <FEFEProperty
+                  FileNameRetrievalType="0" />
+                <FEFEProperty
+                  Recurse="0" />
+              </ForEachFileEnumeratorProperties>
+            </DTS:ObjectData>
+          </DTS:ForEachEnumerator>
+          <DTS:Variables />
+          <DTS:Executables>
+            <DTS:Executable
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Archive Sales Agent Commission File"
+              DTS:CreationName="Microsoft.FileSystemTask"
+              DTS:Description="File System Task"
+              DTS:DTSID="{8EAF863C-B20F-4EF3-AC06-FF7D70DCD207}"
+              DTS:ExecutableType="Microsoft.FileSystemTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Archive Sales Agent Commission File"
+              DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <FileSystemData
+                  TaskOperationType="RenameFile"
+                  TaskOverwriteDestFile="True"
+                  TaskSourcePath="User::CommissionFile"
+                  TaskIsSourceVariable="True"
+                  TaskDestinationPath="User::ArchiveFile"
+                  TaskIsDestinationVariable="True" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Cleanup Staging Data"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{43F1EDA6-41E6-4B04-A3FD-94DBCA9E2E61}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Cleanup Staging Data"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{2870F162-3C2D-4392-ACC5-7FC3B1D5CE37}"
+                  SQLTask:SqlStatementSource="EXEC ssis.uspCleanupSSISStaging_SalesAgent" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging"
+              DTS:CreationName="Microsoft.Pipeline"
+              DTS:DelayValidation="True"
+              DTS:Description="Data Flow Task"
+              DTS:Disabled="True"
+              DTS:DTSID="{D7CC0CFC-5335-4F08-BFE9-A4FC1F4F0474}"
+              DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Import Sales Agent Commission Payments -&gt; Staging"
+              DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  BLOBTempStoragePath=""
+                  bufferTempStoragePath=""
+                  version="1">
+                  <components>
+                    <component
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns"
+                      componentClassID="Microsoft.DerivedColumn"
+                      contactInfo="Derived Column;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                      description="Updates column values using expressions"
+                      name="Derived Columns"
+                      usesDispositions="true">
+                      <inputs>
+                        <input
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Inputs[Derived Column Input]"
+                          description="Input to the Derived Column Transformation"
+                          name="Derived Column Input">
+                          <externalMetadataColumns />
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Outputs[Derived Column Output]"
+                          description="Default Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          name="Derived Column Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Inputs[Derived Column Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Outputs[Derived Column Output].Columns[Import Filename]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Computation"
+                              errorRowDisposition="FailComponent"
+                              length="1024"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Outputs[Derived Column Output].Columns[Import Filename]"
+                              name="Import Filename"
+                              truncationRowDisposition="FailComponent">
+                              <properties>
+                                <property
+                                  containsID="true"
+                                  dataType="System.String"
+                                  description="Derived Column Expression"
+                                  name="Expression">@[User::CommissionFile]</property>
+                                <property
+                                  containsID="true"
+                                  dataType="System.String"
+                                  description="Derived Column Friendly Expression"
+                                  expressionType="Notify"
+                                  name="FriendlyExpression">@[User::CommissionFile]</property>
+                              </properties>
+                            </outputColumn>
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output]"
+                          description="Error Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="Derived Column Error Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Inputs[Derived Column Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter"
+                      componentClassID="Microsoft.ConditionalSplit"
+                      contactInfo="Conditional Split;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                      description="Evaluates and directs rows in a dataset."
+                      localeId="2057"
+                      name="Non-null Filter"
+                      usesDispositions="true">
+                      <inputs>
+                        <input
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                          description="Input to the Conditional Split Transformation"
+                          name="Conditional Split Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input].Columns[Internal Contract Ref]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Internal Contract Ref"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]" />
+                          </inputColumns>
+                          <externalMetadataColumns />
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Outputs[Non-null data]"
+                          description="Output 1 of the Conditional Split Transformation"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          exclusionGroup="1"
+                          name="Non-null data"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                              name="Expression">[ISNULL](#{Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]}) ==  FALSE </property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Specifies the friendly version of the expression. This expression version uses column names."
+                              expressionType="Notify"
+                              name="FriendlyExpression">ISNULL([Internal Contract Ref]) ==  FALSE </property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                              name="EvaluationOrder">0</property>
+                          </properties>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Outputs[Conditional Split Default Output]"
+                          description="Default Output of the Conditional Split Transformation"
+                          exclusionGroup="1"
+                          name="Conditional Split Default Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              name="IsDefaultOut">true</property>
+                          </properties>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output]"
+                          description="Error Output of the Conditional Split Transformation"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="Conditional Split Error Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File"
+                      componentClassID="Microsoft.ExcelSource"
+                      contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                      description="Excel Source"
+                      name="Sales Agent Commission File"
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      version="1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">Payments$</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed."
+                          name="SqlCommandVariable"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">0</property>
+                        <property
+                          dataType="System.String"
+                          description="The mapping from parameters in the SQL command to variables."
+                          name="ParameterMapping"></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[SalesAgentCommissions]"
+                          connectionManagerRefId="Package.ConnectionManagers[SalesAgentCommissions]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <outputs>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output]"
+                          name="Excel Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Internal Contract Ref]"
+                              length="255"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]"
+                              name="Internal Contract Ref"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Value]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Payment Value]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Value]"
+                              name="Payment Value"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Type]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Payment Type]"
+                              length="255"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Type]"
+                              name="Payment Type"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Date]"
+                              dataType="date"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Payment Date]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Date]"
+                              name="Payment Date"
+                              truncationRowDisposition="FailComponent" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="255"
+                              name="Internal Contract Ref" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Payment Value]"
+                              dataType="r8"
+                              name="Payment Value" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Payment Type]"
+                              dataType="wstr"
+                              length="255"
+                              name="Payment Type" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Payment Date]"
+                              dataType="date"
+                              name="Payment Date" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output]"
+                          isErrorOut="true"
+                          name="Excel Source Error Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Internal Contract Ref]"
+                              name="Internal Contract Ref" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Payment Value]"
+                              dataType="r8"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Payment Value]"
+                              name="Payment Value" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Payment Type]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Payment Type]"
+                              name="Payment Type" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Payment Date]"
+                              dataType="date"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Payment Date]"
+                              name="Payment Date" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="Sales Agent Statement Exception DB"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[ssis].[tblSalesAgentPayment_Exception]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[Moneybox_Staging]"
+                          connectionManagerRefId="Package.ConnectionManagers[Moneybox_Staging]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].Columns[Internal Contract Ref]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Internal Contract Ref"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].Columns[Payment Value]"
+                              cachedDataType="r8"
+                              cachedName="Payment Value"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Value]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Value]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].Columns[ErrorCode]"
+                              cachedDataType="i4"
+                              cachedName="ErrorCode"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].Columns[ErrorColumn]"
+                              cachedDataType="i4"
+                              cachedName="ErrorColumn"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].Columns[Import Filename]"
+                              cachedDataType="wstr"
+                              cachedLength="1024"
+                              cachedName="Import Filename"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Import Filename]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Outputs[Derived Column Output].Columns[Import Filename]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].Columns[Payment Type]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Payment Type"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Type]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Type]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].Columns[Payment Date]"
+                              cachedDataType="date"
+                              cachedName="Payment Date"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Date]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Date]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="20"
+                              name="Internal Contract Ref" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Value]"
+                              dataType="numeric"
+                              name="Payment Value"
+                              precision="19"
+                              scale="4" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Created DateTime]"
+                              dataType="dbTimeStamp"
+                              name="Created DateTime" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Import Filename]"
+                              dataType="wstr"
+                              length="1024"
+                              name="Import Filename" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                              dataType="i4"
+                              name="ErrorCode" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                              dataType="i4"
+                              name="ErrorColumn" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Type]"
+                              dataType="wstr"
+                              length="100"
+                              name="Payment Type" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Date]"
+                              dataType="dbTimeStamp"
+                              name="Payment Date" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="Sales Agent Statement Staging DB"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[ssis].[tblSalesAgentPayment_Staging]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">0</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[Moneybox_Staging]"
+                          connectionManagerRefId="Package.ConnectionManagers[Moneybox_Staging]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="RedirectRow"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].Columns[Internal Contract Ref]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Internal Contract Ref"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].Columns[Payment Value]"
+                              cachedDataType="r8"
+                              cachedName="Payment Value"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Value]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Value]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].Columns[Payment Type]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Payment Type"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Type]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Type]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].Columns[Payment Date]"
+                              cachedDataType="date"
+                              cachedName="Payment Date"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Date]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Payment Date]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="20"
+                              name="Internal Contract Ref" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Value]"
+                              dataType="numeric"
+                              name="Payment Value"
+                              precision="19"
+                              scale="4" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Type]"
+                              dataType="wstr"
+                              length="100"
+                              name="Payment Type" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Payment Date]"
+                              dataType="dbTimeStamp"
+                              name="Payment Date" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging.Paths[Derived Column Output]"
+                      endId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB.Inputs[OLE DB Destination Input]"
+                      name="Derived Column Output"
+                      startId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Outputs[Derived Column Output]" />
+                    <path
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging.Paths[Excel Source Output]"
+                      endId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                      name="Excel Source Output"
+                      startId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output]" />
+                    <path
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging.Paths[Non-null data]"
+                      endId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Inputs[OLE DB Destination Input]"
+                      name="Non-null data"
+                      startId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter.Outputs[Non-null data]" />
+                    <path
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging.Paths[OLE DB Destination Error Output]"
+                      endId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns.Inputs[Derived Column Input]"
+                      name="OLE DB Destination Error Output"
+                      startId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB.Outputs[OLE DB Destination Error Output]" />
+                  </paths>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging"
+              DTS:CreationName="Microsoft.Pipeline"
+              DTS:DelayValidation="True"
+              DTS:Description="Data Flow Task"
+              DTS:DTSID="{BE910A70-FB5B-4E08-8788-2879C68411FD}"
+              DTS:ExecutableType="Microsoft.Pipeline"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Import Sales Agent Commission Values -&gt; Staging"
+              DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server v10; (C) 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <pipeline
+                  BLOBTempStoragePath=""
+                  bufferTempStoragePath=""
+                  version="1">
+                  <components>
+                    <component
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns"
+                      componentClassID="Microsoft.DerivedColumn"
+                      contactInfo="Derived Column;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                      description="Updates column values using expressions"
+                      name="Derived Columns"
+                      usesDispositions="true">
+                      <inputs>
+                        <input
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Inputs[Derived Column Input]"
+                          description="Input to the Derived Column Transformation"
+                          name="Derived Column Input">
+                          <externalMetadataColumns />
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Output]"
+                          description="Default Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          name="Derived Column Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Inputs[Derived Column Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Output].Columns[Import Filename]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Computation"
+                              errorRowDisposition="FailComponent"
+                              length="1024"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Output].Columns[Import Filename]"
+                              name="Import Filename"
+                              truncationRowDisposition="FailComponent">
+                              <properties>
+                                <property
+                                  containsID="true"
+                                  dataType="System.String"
+                                  description="Derived Column Expression"
+                                  name="Expression">@[User::CommissionFile]</property>
+                                <property
+                                  containsID="true"
+                                  dataType="System.String"
+                                  description="Derived Column Friendly Expression"
+                                  expressionType="Notify"
+                                  name="FriendlyExpression">@[User::CommissionFile]</property>
+                              </properties>
+                            </outputColumn>
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output]"
+                          description="Error Output of the Derived Column Transformation"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="Derived Column Error Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Inputs[Derived Column Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter"
+                      componentClassID="Microsoft.ConditionalSplit"
+                      contactInfo="Conditional Split;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+                      description="Evaluates and directs rows in a dataset."
+                      name="Non-null Filter"
+                      usesDispositions="true">
+                      <inputs>
+                        <input
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                          description="Input to the Conditional Split Transformation"
+                          name="Conditional Split Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input].Columns[Internal Contract Ref]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Internal Contract Ref"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]" />
+                          </inputColumns>
+                          <externalMetadataColumns />
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Outputs[Non-null data]"
+                          description="Output 1 of the Conditional Split Transformation"
+                          errorOrTruncationOperation="Computation"
+                          errorRowDisposition="FailComponent"
+                          exclusionGroup="1"
+                          name="Non-null data"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                          truncationRowDisposition="FailComponent">
+                          <properties>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Specifies the expression. This expression version uses lineage identifiers instead of column names."
+                              name="Expression">[ISNULL](#{Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]}) ==  FALSE </property>
+                            <property
+                              containsID="true"
+                              dataType="System.String"
+                              description="Specifies the friendly version of the expression. This expression version uses column names."
+                              expressionType="Notify"
+                              name="FriendlyExpression">ISNULL([Internal Contract Ref]) ==  FALSE </property>
+                            <property
+                              dataType="System.Int32"
+                              description="Specifies the position of the condition in the list of conditions that the transformation evaluates. The evaluation order is from the lowest to the highest value."
+                              name="EvaluationOrder">0</property>
+                          </properties>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Default Output]"
+                          description="Default Output of the Conditional Split Transformation"
+                          exclusionGroup="1"
+                          name="Conditional Split Default Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]">
+                          <properties>
+                            <property
+                              dataType="System.Boolean"
+                              name="IsDefaultOut">true</property>
+                          </properties>
+                          <externalMetadataColumns />
+                        </output>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output]"
+                          description="Error Output of the Conditional Split Transformation"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="Conditional Split Error Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Outputs[Conditional Split Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="Sales Agent Commission Exception DB"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[ssis].[tblSalesAgent_Exception]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">3</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[Moneybox_Staging]"
+                          connectionManagerRefId="Package.ConnectionManagers[Moneybox_Staging]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="FailComponent"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].Columns[Internal Contract Ref]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Internal Contract Ref"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].Columns[ErrorCode]"
+                              cachedDataType="i4"
+                              cachedName="ErrorCode"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].Columns[ErrorColumn]"
+                              cachedDataType="i4"
+                              cachedName="ErrorColumn"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].Columns[Import Filename]"
+                              cachedDataType="wstr"
+                              cachedLength="1024"
+                              cachedName="Import Filename"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Import Filename]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Output].Columns[Import Filename]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].Columns[Sales Agent Commission Value]"
+                              cachedDataType="r8"
+                              cachedName="Sales Agent Commission Value"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Sales Agent Commission Value]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Sales Agent Commission Value]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].Columns[Sales Agent Commission Type]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Sales Agent Commission Type"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Sales Agent Commission Type]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Sales Agent Commission Type]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="20"
+                              name="Internal Contract Ref" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Created DateTime]"
+                              dataType="dbTimeStamp"
+                              name="Created DateTime" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Import Filename]"
+                              dataType="wstr"
+                              length="1024"
+                              name="Import Filename" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorCode]"
+                              dataType="i4"
+                              name="ErrorCode" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[ErrorColumn]"
+                              dataType="i4"
+                              name="ErrorColumn" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Sales Agent Commission Value]"
+                              dataType="numeric"
+                              name="Sales Agent Commission Value"
+                              precision="19"
+                              scale="4" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input].ExternalColumns[Sales Agent Commission Type]"
+                              dataType="wstr"
+                              length="100"
+                              name="Sales Agent Commission Type" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File"
+                      componentClassID="Microsoft.ExcelSource"
+                      contactInfo="Excel Source;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;1"
+                      description="Excel Source"
+                      name="Sales Agent Commission File"
+                      usesDispositions="true"
+                      validateExternalMetadata="False"
+                      version="1">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">Commissions$</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.String"
+                          description="The variable that contains the SQL command to be executed."
+                          name="SqlCommandVariable"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">0</property>
+                        <property
+                          dataType="System.String"
+                          description="The mapping from parameters in the SQL command to variables."
+                          name="ParameterMapping"></property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[SalesAgentCommissions]"
+                          connectionManagerRefId="Package.ConnectionManagers[SalesAgentCommissions]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <outputs>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output]"
+                          name="Excel Source Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Internal Contract Ref]"
+                              length="255"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]"
+                              name="Internal Contract Ref"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Sales Agent Commission Value]"
+                              dataType="r8"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Sales Agent Commission Value]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Sales Agent Commission Value]"
+                              name="Sales Agent Commission Value"
+                              truncationRowDisposition="FailComponent" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Sales Agent Commission Type]"
+                              dataType="wstr"
+                              errorOrTruncationOperation="Conversion"
+                              errorRowDisposition="FailComponent"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Sales Agent Commission Type]"
+                              length="255"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Sales Agent Commission Type]"
+                              name="Sales Agent Commission Type"
+                              truncationRowDisposition="FailComponent" />
+                          </outputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="255"
+                              name="Internal Contract Ref" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Sales Agent Commission Value]"
+                              dataType="r8"
+                              name="Sales Agent Commission Value" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].ExternalColumns[Sales Agent Commission Type]"
+                              dataType="wstr"
+                              length="255"
+                              name="Sales Agent Commission Type" />
+                          </externalMetadataColumns>
+                        </output>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output]"
+                          isErrorOut="true"
+                          name="Excel Source Error Output">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Internal Contract Ref]"
+                              name="Internal Contract Ref" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Sales Agent Commission Value]"
+                              dataType="r8"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Sales Agent Commission Value]"
+                              name="Sales Agent Commission Value" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Sales Agent Commission Type]"
+                              dataType="wstr"
+                              length="255"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[Sales Agent Commission Type]"
+                              name="Sales Agent Commission Type" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                    <component
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB"
+                      componentClassID="Microsoft.OLEDBDestination"
+                      contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SqlServer v10; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                      description="OLE DB Destination"
+                      name="Sales Agent Commission Staging DB"
+                      usesDispositions="true"
+                      version="4">
+                      <properties>
+                        <property
+                          dataType="System.Int32"
+                          description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                          name="CommandTimeout">0</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the name of the database object used to open a rowset."
+                          name="OpenRowset">[ssis].[tblSalesAgent_Staging]</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies the variable that contains the name of the database object used to open a rowset."
+                          name="OpenRowsetVariable"></property>
+                        <property
+                          dataType="System.String"
+                          description="The SQL command to be executed."
+                          name="SqlCommand"
+                          UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the column code page to use when code page information is unavailable from the data source."
+                          name="DefaultCodePage">1252</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Forces the use of the DefaultCodePage property value when describing character data."
+                          name="AlwaysUseDefaultCodePage">false</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies the mode used to access the database."
+                          name="AccessMode"
+                          typeConverter="AccessMode">0</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepIdentity">false</property>
+                        <property
+                          dataType="System.Boolean"
+                          description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                          name="FastLoadKeepNulls">false</property>
+                        <property
+                          dataType="System.String"
+                          description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                          name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                        <property
+                          dataType="System.Int32"
+                          description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                          name="FastLoadMaxInsertCommitSize">2147483647</property>
+                      </properties>
+                      <connections>
+                        <connection
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Connections[OleDbConnection]"
+                          connectionManagerID="Package.ConnectionManagers[Moneybox_Staging]"
+                          connectionManagerRefId="Package.ConnectionManagers[Moneybox_Staging]"
+                          description="The OLE DB runtime connection used to access the database."
+                          name="OleDbConnection" />
+                      </connections>
+                      <inputs>
+                        <input
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input]"
+                          errorOrTruncationOperation="Insert"
+                          errorRowDisposition="RedirectRow"
+                          hasSideEffects="true"
+                          name="OLE DB Destination Input">
+                          <inputColumns>
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input].Columns[Internal Contract Ref]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Internal Contract Ref"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Internal Contract Ref]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input].Columns[Sales Agent Commission Value]"
+                              cachedDataType="r8"
+                              cachedName="Sales Agent Commission Value"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Sales Agent Commission Value]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Sales Agent Commission Value]" />
+                            <inputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input].Columns[Sales Agent Commission Type]"
+                              cachedDataType="wstr"
+                              cachedLength="255"
+                              cachedName="Sales Agent Commission Type"
+                              externalMetadataColumnId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Sales Agent Commission Type]"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output].Columns[Sales Agent Commission Type]" />
+                          </inputColumns>
+                          <externalMetadataColumns
+                            isUsed="True">
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Internal Contract Ref]"
+                              dataType="wstr"
+                              length="20"
+                              name="Internal Contract Ref" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Sales Agent Commission Value]"
+                              dataType="numeric"
+                              name="Sales Agent Commission Value"
+                              precision="19"
+                              scale="4" />
+                            <externalMetadataColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input].ExternalColumns[Sales Agent Commission Type]"
+                              dataType="wstr"
+                              length="100"
+                              name="Sales Agent Commission Type" />
+                          </externalMetadataColumns>
+                        </input>
+                      </inputs>
+                      <outputs>
+                        <output
+                          refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Outputs[OLE DB Destination Error Output]"
+                          exclusionGroup="1"
+                          isErrorOut="true"
+                          name="OLE DB Destination Error Output"
+                          synchronousInputId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input]">
+                          <outputColumns>
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                              name="ErrorCode"
+                              specialFlags="1" />
+                            <outputColumn
+                              refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              dataType="i4"
+                              lineageId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                              name="ErrorColumn"
+                              specialFlags="2" />
+                          </outputColumns>
+                          <externalMetadataColumns />
+                        </output>
+                      </outputs>
+                    </component>
+                  </components>
+                  <paths>
+                    <path
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging.Paths[Derived Column Output]"
+                      endId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB.Inputs[OLE DB Destination Input]"
+                      name="Derived Column Output"
+                      startId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Outputs[Derived Column Output]" />
+                    <path
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging.Paths[Excel Source Output]"
+                      endId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Inputs[Conditional Split Input]"
+                      name="Excel Source Output"
+                      startId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File.Outputs[Excel Source Output]" />
+                    <path
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging.Paths[Non-null data]"
+                      endId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Inputs[OLE DB Destination Input]"
+                      name="Non-null data"
+                      startId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter.Outputs[Non-null data]" />
+                    <path
+                      refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging.Paths[OLE DB Destination Error Output]"
+                      endId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns.Inputs[Derived Column Input]"
+                      name="OLE DB Destination Error Output"
+                      startId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB.Outputs[OLE DB Destination Error Output]" />
+                  </paths>
+                </pipeline>
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Insert Sales Agent Payment from Staging"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:Disabled="True"
+              DTS:DTSID="{A6B3F7BB-094B-4A16-A1F2-4A9F2567E3D9}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Insert Sales Agent Payment from Staging"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{2870F162-3C2D-4392-ACC5-7FC3B1D5CE37}"
+                  SQLTask:SqlStatementSource="EXEC ssis.uspInsertSalesAgentPaymentFromStaging" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+            <DTS:Executable
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Update Contract from Sales Agent Commission Stagiing"
+              DTS:CreationName="Microsoft.ExecuteSQLTask"
+              DTS:Description="Execute SQL Task"
+              DTS:DTSID="{74DC42F5-50EB-4004-8C40-5D4F47BA3290}"
+              DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+              DTS:LocaleID="-1"
+              DTS:ObjectName="Update Contract from Sales Agent Commission Stagiing"
+              DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+              DTS:ThreadHint="0">
+              <DTS:Variables />
+              <DTS:ObjectData>
+                <SQLTask:SqlTaskData
+                  SQLTask:Connection="{2870F162-3C2D-4392-ACC5-7FC3B1D5CE37}"
+                  SQLTask:SqlStatementSource="EXEC ssis.uspUpdateSalesAgentCommissionFromStaging" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              </DTS:ObjectData>
+            </DTS:Executable>
+          </DTS:Executables>
+          <DTS:PrecedenceConstraints>
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.PrecedenceConstraints[Constraint]"
+              DTS:CreationName=""
+              DTS:DTSID="{FF212529-057E-46E4-80D5-11DEE0BBA3FC}"
+              DTS:From="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Cleanup Staging Data"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint"
+              DTS:To="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.PrecedenceConstraints[Constraint 1]"
+              DTS:CreationName=""
+              DTS:DTSID="{9437AB5C-E4E5-4EB7-AC45-42BB2B00BA85}"
+              DTS:From="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 1"
+              DTS:To="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Update Contract from Sales Agent Commission Stagiing" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.PrecedenceConstraints[Constraint 2]"
+              DTS:CreationName=""
+              DTS:DTSID="{F3570B45-114F-4E9B-BF76-A85000DF647C}"
+              DTS:From="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Update Contract from Sales Agent Commission Stagiing"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 2"
+              DTS:To="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.PrecedenceConstraints[Constraint 3]"
+              DTS:CreationName=""
+              DTS:DTSID="{6D44AB9D-BF81-4DDA-A28D-A78528F7F13C}"
+              DTS:From="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 3"
+              DTS:To="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Insert Sales Agent Payment from Staging" />
+            <DTS:PrecedenceConstraint
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.PrecedenceConstraints[Constraint 4]"
+              DTS:CreationName=""
+              DTS:DTSID="{922C1D7E-6782-4EE4-B385-8453055E68EA}"
+              DTS:From="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Insert Sales Agent Payment from Staging"
+              DTS:LogicalAnd="True"
+              DTS:ObjectName="Constraint 4"
+              DTS:To="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Archive Sales Agent Commission File" />
+          </DTS:PrecedenceConstraints>
+          <DTS:EventHandlers>
+            <DTS:EventHandler
+              DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.EventHandlers[OnTaskFailed]"
+              DTS:CreationName="OnTaskFailed"
+              DTS:DTSID="{F07C9C56-D416-4696-95CB-28891B4BC5B3}"
+              DTS:EventID="0"
+              DTS:EventName="OnTaskFailed"
+              DTS:LocaleID="-1">
+              <DTS:Variables>
+                <DTS:Variable
+                  DTS:CreationName=""
+                  DTS:Description="The propagate property of the event"
+                  DTS:DTSID="{2EF926C1-8C82-43A3-9B03-4D477CDA9E18}"
+                  DTS:IncludeInDebugDump="6789"
+                  DTS:Namespace="System"
+                  DTS:ObjectName="Propagate">
+                  <DTS:VariableValue
+                    DTS:DataType="11">-1</DTS:VariableValue>
+                </DTS:Variable>
+              </DTS:Variables>
+              <DTS:Executables>
+                <DTS:Executable
+                  DTS:refId="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.EventHandlers[OnTaskFailed]\Archive Error File"
+                  DTS:CreationName="Microsoft.FileSystemTask"
+                  DTS:Description="File System Task"
+                  DTS:DTSID="{9AC4DBBC-994A-43A6-86C2-70E83736948C}"
+                  DTS:ExecutableType="Microsoft.FileSystemTask"
+                  DTS:LocaleID="-1"
+                  DTS:ObjectName="Archive Error File"
+                  DTS:TaskContact="File System Task;Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+                  <DTS:Variables />
+                  <DTS:ObjectData>
+                    <FileSystemData
+                      TaskOperationType="RenameFile"
+                      TaskOverwriteDestFile="True"
+                      TaskSourcePath="User::CommissionFile"
+                      TaskIsSourceVariable="True"
+                      TaskDestinationPath="User::ErrorFile"
+                      TaskIsDestinationVariable="True" />
+                  </DTS:ObjectData>
+                </DTS:Executable>
+              </DTS:Executables>
+            </DTS:EventHandler>
+          </DTS:EventHandlers>
+          <DTS:ForEachVariableMappings>
+            <DTS:ForEachVariableMapping
+              DTS:CreationName=""
+              DTS:DTSID="{AFAD4FDC-F53A-4788-AF5F-B58D220A899C}"
+              DTS:ObjectName="{AFAD4FDC-F53A-4788-AF5F-B58D220A899C}"
+              DTS:ValueIndex="0"
+              DTS:VariableName="User::CommissionFile" />
+          </DTS:ForEachVariableMappings>
+        </DTS:Executable>
+      </DTS:Executables>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{4C8507C9-5E06-4ACE-9364-55D2209A727F}"
+      DTS:From="Package\Log Task Start"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Load variables from DB" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{8DB5E9DF-BBA7-4283-877E-3F396C21B6BD}"
+      DTS:From="Package\SalesAgentCommissions Files"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Email Success" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{4239409C-A508-4902-8DEC-326375CE6D4D}"
+      DTS:From="Package\Load variables from DB"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\SalesAgentCommissions Files" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{1D736B92-6379-42A7-9C60-BBB5C7AE705F}"
+      DTS:From="Package\Email Success"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Log Task End"
+      DTS:Value="2" />
+  </DTS:PrecedenceConstraints>
+  <DTS:EventHandlers>
+    <DTS:EventHandler
+      DTS:refId="Package.EventHandlers[OnError]"
+      DTS:CreationName="OnError"
+      DTS:DTSID="{2943ED2B-AA08-4BE8-85C4-68A119E6AC2D}"
+      DTS:EventID="0"
+      DTS:EventName="OnError"
+      DTS:LocaleID="-1">
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:Description="The propagate property of the event"
+          DTS:DTSID="{4AC17108-99E1-43C9-B6DB-8F3028894295}"
+          DTS:IncludeInDebugDump="6789"
+          DTS:Namespace="System"
+          DTS:ObjectName="Propagate">
+          <DTS:VariableValue
+            DTS:DataType="11">-1</DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Email failure"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Send Mail Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{4B856547-38AA-4516-B11A-4EA303F67915}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Email failure"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{5214F782-3F32-46FA-9FE0-4351BBC1F74D}"
+              SendMailTask:From="MICSQL1.Agent1@makeitcheaper.com"
+              SendMailTask:To="jonw61@gmail.com"
+              SendMailTask:Subject="Something went wrong..."
+              SendMailTask:MessageSource="Oh yes it did" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package.EventHandlers[OnError]\Log Task Abort"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{52950A4E-0C75-441B-9A66-5CF7C295510B}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Log Task Abort"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; Microsoft SQL Server 2008 R2; © 2007 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{2870F162-3C2D-4392-ACC5-7FC3B1D5CE37}"
+              SQLTask:SqlStatementSource="EXEC ssis.uspInsertSSISLogRecord 'TASKABORT', 'SalesAgentCommissionImport task task aborted'" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
+          DTS:CreationName=""
+          DTS:DTSID="{3439E0D8-63E2-4E47-B682-AB2E54BE1109}"
+          DTS:From="Package.EventHandlers[OnError]\Email failure"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Constraint"
+          DTS:To="Package.EventHandlers[OnError]\Log Task Abort"
+          DTS:Value="2" />
+      </DTS:PrecedenceConstraints>
+    </DTS:EventHandler>
+  </DTS:EventHandlers>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Email Success"
+          TopLeft="841.801886792453,5.5" />
+        <NodeLayout
+          Size="167.735849056604,43.9245283018868"
+          Id="Package\Load variables from DB\Get Archive Folder Path"
+          TopLeft="17.8490566037736,79.377358490566" />
+        <NodeLayout
+          Size="167.735849056604,43.9245283018868"
+          Id="Package\Load variables from DB\Get DropFolder path"
+          TopLeft="17.8867924528302,17.9056603773585" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="False"
+          PanelSize="204.716981132076,138.830188679246"
+          Size="190,44"
+          Id="Package\Load variables from DB"
+          TopLeft="175.311320754717,5.76415094339626" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Log Task End"
+          TopLeft="1012.10377358491,6.17924528301887" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\Log Task Start"
+          TopLeft="5.5,5.57547169811323" />
+        <NodeLayout
+          Size="230,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Archive Sales Agent Commission File"
+          TopLeft="63.4716981132075,372.547169811321" />
+        <NodeLayout
+          Size="182,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Cleanup Staging Data"
+          TopLeft="87.7358490566038,8.47169811320751" />
+        <NodeLayout
+          Size="318,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging"
+          TopLeft="19.5471698113208,221.943396226415" />
+        <NodeLayout
+          Size="295,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging"
+          TopLeft="30.9811320754717,80.0943396226415" />
+        <NodeLayout
+          Size="235,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Insert Sales Agent Payment from Staging"
+          TopLeft="61.3584905660377,294.849056603774" />
+        <NodeLayout
+          Size="320,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Update Contract from Sales Agent Commission Stagiing"
+          TopLeft="18.6037735849056,151.22641509434" />
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.PrecedenceConstraints[Constraint]"
+          TopLeft="178.566037735849,52.3962264150943">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-0.339622641509436,27.6981132075472"
+              Start="0,0"
+              End="-0.339622641509436,20.1981132075472">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.8490566037736" />
+                  <mssgle:LineSegment
+                    End="-0.339622641509436,13.8490566037736" />
+                  <mssgle:LineSegment
+                    End="-0.339622641509436,20.1981132075472" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.PrecedenceConstraints[Constraint 1]"
+          TopLeft="178.22641509434,124.018867924528">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.603773584905639,27.2075471698113"
+              Start="0,0"
+              End="0.603773584905639,19.7075471698113">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.622641509434" />
+                  <mssgle:LineSegment
+                    End="0.603773584905639,13.622641509434" />
+                  <mssgle:LineSegment
+                    End="0.603773584905639,19.7075471698113" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.PrecedenceConstraints[Constraint 2]"
+          TopLeft="116.566037735849,195.150943396226">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="62.2264150943396,26.7924528301887"
+              Start="0,0"
+              End="62.2264150943396,19.2924528301887">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.1132075471698" />
+                  <mssgle:LineSegment
+                    End="62.2264150943396,20.1132075471698" />
+                  <mssgle:LineSegment
+                    End="62.2264150943396,19.2924528301887" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.PrecedenceConstraints[Constraint 3]"
+          TopLeft="116.528301886792,265.867924528302">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="62.1509433962264,28.9811320754717"
+              Start="0,0"
+              End="62.1509433962264,21.4811320754717">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.7358490566038" />
+                  <mssgle:LineSegment
+                    End="62.1509433962264,21.7358490566038" />
+                  <mssgle:LineSegment
+                    End="62.1509433962264,21.4811320754717" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.PrecedenceConstraints[Constraint 4]"
+          TopLeft="137.169811320755,338.77358490566">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41.0943396226415,33.7735849056604"
+              Start="0,0"
+              End="41.0943396226415,26.2735849056604">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.3207547169811" />
+                  <mssgle:LineSegment
+                    End="41.0943396226415,25.3207547169811" />
+                  <mssgle:LineSegment
+                    End="41.0943396226415,26.2735849056604" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="372,450"
+          Size="372,494"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File"
+          TopLeft="16.9056603773585,13.7547169811321" />
+        <ContainerLayout
+          HeaderHeight="43.924528301886795"
+          IsExpanded="True"
+          PanelSize="404,526"
+          Size="404,570"
+          Id="Package\SalesAgentCommissions Files"
+          TopLeft="403.952830188679,6.3679245283019" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="141.27358490566,27.5377358490566">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="34.0377358490566,0.188679245283026"
+              Start="0,0"
+              End="26.5377358490566,0.188679245283026">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="17.0188679245283,0" />
+                  <mssgle:LineSegment
+                    End="17.0188679245283,0.188679245283026" />
+                  <mssgle:LineSegment
+                    End="26.5377358490566,0.188679245283026" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="807.575471698113,291.424528301887">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="34.2264150943396,-263.962264150943"
+              Start="0,0"
+              End="26.7264150943396,-263.962264150943">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="17.1320754716981,0" />
+                  <mssgle:LineSegment
+                    End="17.1320754716981,-263.962264150943" />
+                  <mssgle:LineSegment
+                    End="26.7264150943396,-263.962264150943" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="365.009433962264,27.7264150943396">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="38.9433962264151,263.698113207547"
+              Start="0,0"
+              End="31.4433962264151,263.698113207547">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="19.4716981132075,0" />
+                  <mssgle:LineSegment
+                    End="19.4716981132075,263.698113207547" />
+                  <mssgle:LineSegment
+                    End="31.4433962264151,263.698113207547" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="977.575471698113,27.4622641509434">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="34.5283018867924,0.679245283018872"
+              Start="0,0"
+              End="27.0283018867924,0.679245283018872">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="17.2452830188679,0" />
+                  <mssgle:LineSegment
+                    End="17.2452830188679,0.679245283018872" />
+                  <mssgle:LineSegment
+                    End="27.0283018867924,0.679245283018872" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-8.05917010613208,-21.609375,50.60890625,11.609375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <DtsEventHandler
+    design-time-name="Package.EventHandlers[OnError]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package.EventHandlers[OnError]\Email failure"
+          TopLeft="5.5,5.5" />
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package.EventHandlers[OnError]\Log Task Abort"
+          TopLeft="6.02830188679246,170.745283018868" />
+        <EdgeLayout
+          Id="Package.EventHandlers[OnError].PrecedenceConstraints[Constraint]"
+          TopLeft="73.3867924528302,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.528301886792462,121.320754716981"
+              Start="0,0"
+              End="0.528301886792462,113.820754716981">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,60.6415094339623" />
+                  <mssgle:LineSegment
+                    End="0.528301886792462,60.6415094339623" />
+                  <mssgle:LineSegment
+                    End="0.528301886792462,113.820754716981" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <DtsEventHandler
+    design-time-name="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.EventHandlers[OnTaskFailed]">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="135.773584905661,43.9245283018868"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File.EventHandlers[OnTaskFailed]\Archive Error File"
+          TopLeft="5.5,5.5" />
+      </GraphLayout>
+    </LayoutInfo>
+  </DtsEventHandler>
+  <TaskHost
+    design-time-name="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="233,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB"
+          TopLeft="501.575471698113,210.783018867925" />
+        <NodeLayout
+          Size="222,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB"
+          TopLeft="5.5,210.783018867925" />
+        <NodeLayout
+          Size="144,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Non-null Filter"
+          TopLeft="44.8962264150944,104.518867924528" />
+        <NodeLayout
+          Size="191,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Commission File"
+          TopLeft="21.3490566037736,5.5" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Derived Columns"
+          TopLeft="277.915094339623,210.783018867925" />
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging.Paths[OLE DB Destination Error Output]"
+          TopLeft="227.160377358491,232.745283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="50.7547169811321,0"
+              Start="0,0"
+              End="43.2547169811321,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="43.2547169811321,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-51.5815477594339,5,146.4178125,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging.Paths[Non-null data]"
+          TopLeft="116.783018867925,148.443396226415">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-0.452830188679229,62.3396226415094"
+              Start="0,0"
+              End="-0.452830188679229,54.8396226415094">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.1698113207547" />
+                  <mssgle:LineSegment
+                    End="-0.452830188679229,31.1698113207547" />
+                  <mssgle:LineSegment
+                    End="-0.452830188679229,54.8396226415094" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-30.3197744693396,36.1698113207547,60.18671875,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging.Paths[Excel Source Output]"
+          TopLeft="116.707547169811,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.0754716981132049,55.0943396226415"
+              Start="0,0"
+              End="0.0754716981132049,47.5943396226415">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.5471698113208" />
+                  <mssgle:LineSegment
+                    End="0.0754716981132049,27.5471698113208" />
+                  <mssgle:LineSegment
+                    End="0.0754716981132049,47.5943396226415" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging.Paths[Derived Column Output]"
+          TopLeft="413.688679245283,232.745283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="87.8867924528302,0"
+              Start="0,0"
+              End="80.3867924528302,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="80.3867924528302,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Staging DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Payments -&gt; Staging\Sales Agent Statement Exception DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="136,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Derived Columns"
+          TopLeft="390.179245283019,270.330188679245" />
+        <NodeLayout
+          Size="136,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Non-null Filter"
+          TopLeft="50.4811320754717,147.047169811321" />
+        <NodeLayout
+          Size="227,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB"
+          TopLeft="5.5,270.292452830189" />
+        <NodeLayout
+          Size="238,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB"
+          TopLeft="579.877358490566,270.330188679245" />
+        <NodeLayout
+          Size="171,44"
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File"
+          TopLeft="33.5377358490566,5.5" />
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging.Paths[OLE DB Destination Error Output]"
+          TopLeft="232.141509433962,292.254716981132">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="158.037735849057,0.0377358490565882"
+              Start="0,0"
+              End="150.537735849057,0.0377358490565882">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="79.0188679245283,0" />
+                  <mssgle:LineSegment
+                    End="79.0188679245283,0.0377358490565882" />
+                  <mssgle:LineSegment
+                    End="150.537735849057,0.0377358490565882" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="5.8099616745283,-21.43359375,146.4178125,11.43359375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging.Paths[Non-null data]"
+          TopLeft="118.367924528302,190.971698113208">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0.452830188679229,79.3207547169811"
+              Start="0,0"
+              End="0.452830188679229,71.8207547169811">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,39.6603773584906" />
+                  <mssgle:LineSegment
+                    End="0.452830188679229,39.6603773584906" />
+                  <mssgle:LineSegment
+                    End="0.452830188679229,71.8207547169811" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-29.8669442806604,44.6603773584906,60.18671875,9.7490234375"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging.Paths[Excel Source Output]"
+          TopLeft="118.896226415094,49.4245283018868">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-0.528301886792434,97.622641509434"
+              Start="0,0"
+              End="-0.528301886792434,90.122641509434">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,48.7924528301887" />
+                  <mssgle:LineSegment
+                    End="-0.528301886792434,48.7924528301887" />
+                  <mssgle:LineSegment
+                    End="-0.528301886792434,90.122641509434" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging.Paths[Derived Column Output]"
+          TopLeft="525.952830188679,292.292452830189">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="53.9245283018869,0"
+              Start="0,0"
+              End="46.4245283018869,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="46.4245283018869,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Exception DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission Staging DB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\SalesAgentCommissions Files\Foreach Sales Agent Commission File\Import Sales Agent Commission Values -&gt; Staging\Sales Agent Commission File">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
